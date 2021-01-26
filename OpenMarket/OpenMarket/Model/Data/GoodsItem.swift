@@ -14,7 +14,6 @@ struct GoodsItem: Decodable {
     let currency: String
     let stock: Int
     let thumbnails: [String]
-    let descriptions: String?
     let discountedPrice: Int?
     let registrationDate: TimeInterval
     
@@ -25,7 +24,6 @@ struct GoodsItem: Decodable {
         case currency
         case stock
         case thumbnails
-        case descriptions
         case discountedPrice = "discounted_price"
         case registrationDate = "registration_date"
     }
