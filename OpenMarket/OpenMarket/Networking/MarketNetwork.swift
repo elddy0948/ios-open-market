@@ -25,7 +25,6 @@ struct MarketNetwork {
     }
     
     static func registerGoods(with form: GoodsForm) {
-        // TODO: edit image data
         guard let url = NetworkConfig.makeURL(with: .registerGoods) else {
             return
         }
