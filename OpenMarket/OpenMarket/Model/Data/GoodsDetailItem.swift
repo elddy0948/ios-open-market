@@ -32,3 +32,15 @@ struct GoodsDetailItem: Decodable {
         case registrationDate = "registration_date"
     }
 }
+
+protocol GoodsForm {
+    var title: String? { get }
+    var descriptions: String? { get }
+    var price: Int? { get }
+    var currency: String? { get }
+    var stock: Int? { get }
+    var discountedPrice: Int? { get }
+    var images: [String]? { get }
+    var password: String? { get }
+    var convertParameter: [String : Any]? { get }
+}
