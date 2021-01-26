@@ -8,19 +8,19 @@
 import Foundation
 
 enum OpenMarketAPITypes{
-    case getGoodsList(page: Int)
+    case searchGoodsList(page: Int)
     case registerGoods
-    case getGoods(id: Int)
+    case searchGoods(id: Int)
     case editGoods(id: Int)
     case deleteGoods(id: Int)
     
     var urlQuery: String {
         switch self {
-        case .getGoodsList(page: let page):
+        case .searchGoodsList(page: let page):
             return "/items/\(page)"
         case .registerGoods:
             return "/item"
-        case .getGoods(id: let id):
+        case .searchGoods(id: let id):
             return "/item/\(id)"
         case .editGoods(id: let id):
             return "/item/\(id)"
