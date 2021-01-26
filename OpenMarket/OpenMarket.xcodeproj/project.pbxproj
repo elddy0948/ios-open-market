@@ -10,6 +10,9 @@
 		28D5B15525BFB553008B038B /* GoodsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D5B15425BFB553008B038B /* GoodsItem.swift */; };
 		28D5B15825BFB57D008B038B /* GoodsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D5B15725BFB57D008B038B /* GoodsList.swift */; };
 		28D5B16725BFC012008B038B /* NetworkMethodType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D5B16625BFC012008B038B /* NetworkMethodType.swift */; };
+		28D5B16A25BFC0A2008B038B /* MarketNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D5B16925BFC0A2008B038B /* MarketNetwork.swift */; };
+		28D5B16D25BFC128008B038B /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D5B16C25BFC128008B038B /* NetworkConfig.swift */; };
+		28D5B17125BFC372008B038B /* GoodsDetailItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D5B17025BFC372008B038B /* GoodsDetailItem.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -22,6 +25,9 @@
 		28D5B15425BFB553008B038B /* GoodsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsItem.swift; sourceTree = "<group>"; };
 		28D5B15725BFB57D008B038B /* GoodsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsList.swift; sourceTree = "<group>"; };
 		28D5B16625BFC012008B038B /* NetworkMethodType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMethodType.swift; sourceTree = "<group>"; };
+		28D5B16925BFC0A2008B038B /* MarketNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketNetwork.swift; sourceTree = "<group>"; };
+		28D5B16C25BFC128008B038B /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
+		28D5B17025BFC372008B038B /* GoodsDetailItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsDetailItem.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				28D5B15425BFB553008B038B /* GoodsItem.swift */,
+				28D5B17025BFC372008B038B /* GoodsDetailItem.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -64,6 +71,8 @@
 			isa = PBXGroup;
 			children = (
 				28D5B16625BFC012008B038B /* NetworkMethodType.swift */,
+				28D5B16925BFC0A2008B038B /* MarketNetwork.swift */,
+				28D5B16C25BFC128008B038B /* NetworkConfig.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -171,10 +180,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				28D5B15825BFB57D008B038B /* GoodsList.swift in Sources */,
+				28D5B16A25BFC0A2008B038B /* MarketNetwork.swift in Sources */,
+				28D5B16D25BFC128008B038B /* NetworkConfig.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				28D5B15525BFB553008B038B /* GoodsItem.swift in Sources */,
 				28D5B16725BFC012008B038B /* NetworkMethodType.swift in Sources */,
 				C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */,
+				28D5B17125BFC372008B038B /* GoodsDetailItem.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
