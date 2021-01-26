@@ -91,7 +91,6 @@ extension MarketNetwork {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = methodType.rawValue
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        // TODO: add httpBody-parameter
         if let params = parameter {
             urlRequest.httpBody = try? JSONSerialization.data(withJSONObject: params)
         }
