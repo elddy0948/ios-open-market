@@ -8,8 +8,19 @@
 import Foundation
 
 struct MarketNetwork {
-    static func getGoodsList() {
-        
+    static func getGoodsList(with page: Int) {
+        guard let url = NetworkConfig.makeURL(with: .getGoodsList(page: page)) else {
+            return
+        }
+        self.request(to: .get, from: url, with: nil) { result in
+            do {
+                let rawData = try result.get()
+                let data = try self.convertData(to: GoodsList.self, from: rawData)
+                print("👋\(data)")
+            } catch {
+                print(error)
+            }
+        }
     }
     
     static func registerGoods() {
@@ -28,7 +39,7 @@ struct MarketNetwork {
         
     }
     
-    func request(to methodType: NetworkMethodType, from url: URL,  with parameter: [String : Any]?, completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
+    private static func request(to methodType: NetworkMethodType, from url: URL,  with parameter: [String : Any]?, completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = methodType.rawValue
         // TODO: add httpBody-parameter
@@ -44,6 +55,11 @@ struct MarketNetwork {
                 return completion(.failure(.getData))
             }
             return completion(.success(data))
-        }
+        }.resume()
+    }
+    
+    private static func convertData<T: Decodable>(to type: T.Type, from data: Data) throws -> T {
+        let data = try JSONDecoder().decode(type, from: data)
+        return data
     }
 }
