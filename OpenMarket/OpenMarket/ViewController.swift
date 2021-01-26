@@ -18,13 +18,11 @@ class ViewController: UIViewController {
 //        MarketNetwork.deleteGoods(to: 97)
         let testImage = UIImage(named: "test1")
         guard let testData = testImage?.jpegData(compressionQuality: 0.8)?.base64EncodedString() else {
-            debugPrint("dd")
+            debugPrint("🥺 fail convert UIImage to data")
             return
         }
         let addGoods = RegisterGoodsForm(title: "testFor", descriptions: "testFor", price: 1000000000, currency: "USD", stock: 10000000000, discountedPrice: 2, images: [testData], password: "1234")
         MarketNetwork.registerGoods(with: addGoods)
     }
-
-
 }
 
