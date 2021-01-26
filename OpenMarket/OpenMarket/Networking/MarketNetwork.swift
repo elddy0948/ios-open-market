@@ -24,6 +24,21 @@ struct MarketNetwork {
         }
     }
     
+    static func searchGoods(to id: Int) {
+        guard let url = NetworkConfig.makeURL(with: .searchGoods(id: id)) else {
+            return
+        }
+        self.request(to: .get, from: url, with: nil) { result in
+            do {
+                let rawData = try result.get()
+                let data = try self.convertData(to: GoodsDetailItem.self, from: rawData)
+                debugPrint("👋\(data)")
+            } catch {
+                debugPrint(error.localizedDescription)
+            }
+        }
+    }
+    
     static func registerGoods(with form: GoodsForm) {
         guard let url = NetworkConfig.makeURL(with: .registerGoods) else {
             return
@@ -38,21 +53,6 @@ struct MarketNetwork {
             }
         }
         
-    }
-    
-    static func searchGoods(to id: Int) {
-        guard let url = NetworkConfig.makeURL(with: .searchGoods(id: id)) else {
-            return
-        }
-        self.request(to: .get, from: url, with: nil) { result in
-            do {
-                let rawData = try result.get()
-                let data = try self.convertData(to: GoodsDetailItem.self, from: rawData)
-                debugPrint("👋\(data)")
-            } catch {
-                debugPrint(error.localizedDescription)
-            }
-        }
     }
     
     static func editGoods(to id: Int, with form: GoodsForm) {
