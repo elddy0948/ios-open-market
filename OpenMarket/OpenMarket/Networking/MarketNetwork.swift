@@ -19,13 +19,25 @@ struct MarketNetwork {
                 let data = try self.convertData(to: GoodsList.self, from: rawData)
                 debugPrint("🕵️‍♀️\(data)")
             } catch {
-                debugPrint(error)
+                debugPrint(error.localizedDescription)
             }
         }
     }
     
-    static func registerGoods() {
+    static func registerGoods(with form: GoodsForm) {
         // TODO: edit image data
+        guard let url = NetworkConfig.makeURL(with: .registerGoods) else {
+            return
+        }
+        self.request(to: .post, from: url, with: form.convertParameter) { result in
+            do {
+                let rawData = try result.get()
+                let data = try self.convertData(to: GoodsDetailItem.self, from: rawData)
+                debugPrint("➕\(data)")
+            } catch {
+                debugPrint(error.localizedDescription)
+            }
+        }
         
     }
     
@@ -39,16 +51,16 @@ struct MarketNetwork {
                 let data = try self.convertData(to: GoodsDetailItem.self, from: rawData)
                 debugPrint("👋\(data)")
             } catch {
-                debugPrint(error)
+                debugPrint(error.localizedDescription)
             }
         }
     }
     
-    static func editGoods(to id: Int, with parameter: [String : Any]) {
+    static func editGoods(to id: Int, with form: GoodsForm) {
         guard let url = NetworkConfig.makeURL(with: .editGoods(id: id)) else {
             return
         }
-        self.request(to: .patch, from: url, with: parameter) { result in
+        self.request(to: .patch, from: url, with: form.convertParameter) { result in
             do {
                 let rawData = try result.get()
                 let data = try self.convertData(to: GoodsDetailItem.self, from: rawData)
