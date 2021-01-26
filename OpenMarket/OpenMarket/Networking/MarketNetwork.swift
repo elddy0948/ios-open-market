@@ -7,42 +7,83 @@
 
 import Foundation
 
+// TODO: add handling error
 struct MarketNetwork {
-    static func getGoodsList(with page: Int) {
-        guard let url = NetworkConfig.makeURL(with: .getGoodsList(page: page)) else {
+    static func searchGoodsList(with page: Int) {
+        guard let url = NetworkConfig.makeURL(with: .searchGoodsList(page: page)) else {
             return
         }
         self.request(to: .get, from: url, with: nil) { result in
             do {
                 let rawData = try result.get()
                 let data = try self.convertData(to: GoodsList.self, from: rawData)
-                print("👋\(data)")
+                debugPrint("🕵️‍♀️\(data)")
             } catch {
-                print(error)
+                debugPrint(error)
             }
         }
     }
     
     static func registerGoods() {
+        // TODO: edit image data
         
     }
     
-    static func searchGoods() {
-        
+    static func searchGoods(to id: Int) {
+        guard let url = NetworkConfig.makeURL(with: .searchGoods(id: id)) else {
+            return
+        }
+        self.request(to: .get, from: url, with: nil) { result in
+            do {
+                let rawData = try result.get()
+                let data = try self.convertData(to: GoodsDetailItem.self, from: rawData)
+                debugPrint("👋\(data)")
+            } catch {
+                debugPrint(error)
+            }
+        }
     }
     
-    static func editGoods() {
-        
+    static func editGoods(to id: Int, with parameter: [String : Any]) {
+        guard let url = NetworkConfig.makeURL(with: .editGoods(id: id)) else {
+            return
+        }
+        self.request(to: .patch, from: url, with: parameter) { result in
+            do {
+                let rawData = try result.get()
+                let data = try self.convertData(to: GoodsDetailItem.self, from: rawData)
+                debugPrint("📝\(data)")
+            } catch {
+                debugPrint(error.localizedDescription)
+            }
+        }
     }
     
-    static func deleteGoods() {
-        
+    static func deleteGoods(to id: Int) {
+        guard let url = NetworkConfig.makeURL(with: .deleteGoods(id: id)) else {
+            return
+        }
+        self.request(to: .delete, from: url, with: nil) { result in
+            do {
+                let rawData = try result.get()
+                debugPrint("❌\(rawData)")
+            } catch {
+                debugPrint(error)
+            }
+        }
     }
-    
+}
+
+extension MarketNetwork {
     private static func request(to methodType: NetworkMethodType, from url: URL,  with parameter: [String : Any]?, completion: @escaping ((Result<Data, NetworkError>) -> Void)) {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = methodType.rawValue
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         // TODO: add httpBody-parameter
+        if let params = parameter {
+            urlRequest.httpBody = try? JSONSerialization.data(withJSONObject: params)
+        }
+        
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if error != nil {
                 completion(.failure(.network))
