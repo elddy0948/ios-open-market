@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct NetworkConfig {
+    private static let openMarketFixedURL = "https://camp-open-market.herokuapp.com/"
+}
