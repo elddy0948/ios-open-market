@@ -24,6 +24,9 @@
 		B472CE8D25C3B87000EE090D /* RegisterGoodsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B472CE8C25C3B87000EE090D /* RegisterGoodsAPI.swift */; };
 		B472CE9725C407DF00EE090D /* APILoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B472CE9625C407DF00EE090D /* APILoader.swift */; };
 		B472CEA125C4276E00EE090D /* ResponseMock.json in Resources */ = {isa = PBXBuildFile; fileRef = B472CEA025C4276E00EE090D /* ResponseMock.json */; };
+		B472CEAF25C43DD900EE090D /* FetchGoodsListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B472CEAE25C43DD900EE090D /* FetchGoodsListAPI.swift */; };
+		B472CEB525C443E100EE090D /* FetchGoodsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B472CEB425C443E100EE090D /* FetchGoodsAPI.swift */; };
+		B472CEB925C4453400EE090D /* DeleteGoodsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B472CEB825C4453400EE090D /* DeleteGoodsAPI.swift */; };
 		C70FB0FB25BEF61C00C9924E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */; };
 		C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */; };
 		C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70FB0FE25BEF61C00C9924E /* ViewController.swift */; };
@@ -62,6 +65,9 @@
 		B472CE8C25C3B87000EE090D /* RegisterGoodsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterGoodsAPI.swift; sourceTree = "<group>"; };
 		B472CE9625C407DF00EE090D /* APILoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APILoader.swift; sourceTree = "<group>"; };
 		B472CEA025C4276E00EE090D /* ResponseMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ResponseMock.json; sourceTree = "<group>"; };
+		B472CEAE25C43DD900EE090D /* FetchGoodsListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchGoodsListAPI.swift; sourceTree = "<group>"; };
+		B472CEB425C443E100EE090D /* FetchGoodsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchGoodsAPI.swift; sourceTree = "<group>"; };
+		B472CEB825C4453400EE090D /* DeleteGoodsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteGoodsAPI.swift; sourceTree = "<group>"; };
 		C70FB0F725BEF61C00C9924E /* OpenMarket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C70FB0FA25BEF61C00C9924E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C70FB0FC25BEF61C00C9924E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -135,12 +141,22 @@
 				B43EE7DE25C06171003089C9 /* NetworkConfig.swift */,
 				B43EE7DA25C0612C003089C9 /* OpenMarketAPITypes.swift */,
 				B43EE7D625C05D18003089C9 /* MethodType.swift */,
-				B472CE7825C3ACB200EE090D /* APIHandler.swift */,
 				B472CE7C25C3AD5A00EE090D /* BaseRequest.swift */,
-				B472CE8C25C3B87000EE090D /* RegisterGoodsAPI.swift */,
-				B472CE9625C407DF00EE090D /* APILoader.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		B472CEBD25C44C0900EE090D /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+				B472CE7825C3ACB200EE090D /* APIHandler.swift */,
+				B472CE9625C407DF00EE090D /* APILoader.swift */,
+				B472CEAE25C43DD900EE090D /* FetchGoodsListAPI.swift */,
+				B472CE8C25C3B87000EE090D /* RegisterGoodsAPI.swift */,
+				B472CEB425C443E100EE090D /* FetchGoodsAPI.swift */,
+				B472CEB825C4453400EE090D /* DeleteGoodsAPI.swift */,
+			);
+			path = APIs;
 			sourceTree = "<group>";
 		};
 		C70FB0EE25BEF61C00C9924E = {
@@ -164,6 +180,7 @@
 		C70FB0F925BEF61C00C9924E /* OpenMarket */ = {
 			isa = PBXGroup;
 			children = (
+				B472CEBD25C44C0900EE090D /* APIs */,
 				288D24DA25C3A07500790A15 /* Error */,
 				B43EE7BA25C01B83003089C9 /* Utility */,
 				B42776B525BFAA340093639B /* MockData */,
@@ -292,10 +309,12 @@
 			files = (
 				B472CE7925C3ACB200EE090D /* APIHandler.swift in Sources */,
 				B427769B25BFA61E0093639B /* Goods.swift in Sources */,
+				B472CEB925C4453400EE090D /* DeleteGoodsAPI.swift in Sources */,
 				B472CE7D25C3AD5A00EE090D /* BaseRequest.swift in Sources */,
 				B43EE7DF25C06171003089C9 /* NetworkConfig.swift in Sources */,
 				B43EE7C225C042F1003089C9 /* NetworkError.swift in Sources */,
 				28A7A44F25C26C9500EECAD0 /* GoodsForm.swift in Sources */,
+				B472CEB525C443E100EE090D /* FetchGoodsAPI.swift in Sources */,
 				288D24DE25C3A24900790A15 /* OpenMarketError.swift in Sources */,
 				C70FB0FF25BEF61C00C9924E /* ViewController.swift in Sources */,
 				B43EE7DB25C0612C003089C9 /* OpenMarketAPITypes.swift in Sources */,
@@ -303,6 +322,7 @@
 				B43EE7BC25C01B92003089C9 /* Networking.swift in Sources */,
 				B472CE9725C407DF00EE090D /* APILoader.swift in Sources */,
 				B472CE8D25C3B87000EE090D /* RegisterGoodsAPI.swift in Sources */,
+				B472CEAF25C43DD900EE090D /* FetchGoodsListAPI.swift in Sources */,
 				C70FB0FD25BEF61C00C9924E /* SceneDelegate.swift in Sources */,
 				B42776A325BFA7CE0093639B /* MarketGoods.swift in Sources */,
 				B43EE7D725C05D18003089C9 /* MethodType.swift in Sources */,

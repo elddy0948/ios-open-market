@@ -15,11 +15,13 @@ class ViewController: UIViewController {
         }
         
         let form = GoodsForm(title: "test-joons", descriptions: "desc", price: 100000000, currency: "KRW", stock: 1, discountedPrice: nil, images: [testImage], password: "1234")
-        Networking.registerGoods(form: form) { (result, error) in
+        
+        let api = FetchGoodsAPI()
+        let apiTaskLoader = APILoader(apiRequest: api)
+        apiTaskLoader.loadAPIRequest(requestData: 157) { (result, error) in
             if error == nil {
                 print(result)
             }
         }
     }
 }
-
