@@ -1,0 +1,15 @@
+{
+    "id": 317,
+    "title": "test-joons",
+    "price": 100000000,
+    "currency": "KRW",
+    "images": [
+    "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/images/D9088883-8A85-49D1-BF46-4C4BA9CCC4E9.png"
+    ],
+    "descriptions": "desc",
+    "stock": 1,
+    "thumbnails": [
+    "https://camp-open-market.s3.ap-northeast-2.amazonaws.com/thumbnails/D9088883-8A85-49D1-BF46-4C4BA9CCC4E9.png"
+    ],
+    "registration_date": 1611919504.847262
+}

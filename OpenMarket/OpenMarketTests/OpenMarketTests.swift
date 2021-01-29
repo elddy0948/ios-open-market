@@ -9,12 +9,43 @@ import XCTest
 @testable import OpenMarket
 
 class OpenMarketTests: XCTestCase {
+    var request = RegisterGoodsAPI()
+    
     func test_networkconfig_makeurl_method() {
         guard let url = URL(string: "https://camp-open-market.herokuapp.com/items/1") else {
             XCTFail("Error with URL")
             return
         }
         XCTAssertEqual(NetworkConfig.makeURL(with: .fetchGoodsList(page: 1)), url)
+    }
+    
+    func test_API_request() {
+        guard let testImage = UIImage(named: "test1")?.jpegData(compressionQuality: 0.8) else {
+            return
+        }
+        
+        let form = GoodsForm(title: "test-joons", descriptions: "desc", price: 100000000, currency: "KRW", stock: 1, discountedPrice: nil, images: [testImage], password: "1234")
+        let urlRequest = request.makeRequest(from: form).urlRequest
+        
+        XCTAssertEqual(urlRequest.httpMethod, "POST")
+        XCTAssertNotNil(urlRequest.httpBody)
+        XCTAssertEqual(urlRequest.url, NetworkConfig.makeURL(with: .registerGoods))
+    }
+    
+    func test_parse_response() {
+        guard let url = Bundle.main.url(forResource: "ResponseMock", withExtension: "json") else {
+            XCTFail("Can't find Mock Data")
+            return
+        }
+        
+        do {
+            let data = try Data(contentsOf: url)
+//            let json = try JSONDecoder().decode(Goods.self, from: data)
+            let parseData = try request.parseResponse(data: data)
+            print(parseData)
+        } catch let error {
+            XCTFail(error.localizedDescription)
+        }
     }
     
     func test_fetch_data_from_server() {

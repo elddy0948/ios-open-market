@@ -14,8 +14,12 @@ class ViewController: UIViewController {
             return
         }
         
-        let form = GoodsForm(title: "test-lasagna", descriptions: "desc", price: 100000000, currency: "KRW", stock: 1, discountedPrice: nil, images: [testImage], password: "1234")
-        Networking.registerGoods(form: form)
+        let form = GoodsForm(title: "test-joons", descriptions: "desc", price: 100000000, currency: "KRW", stock: 1, discountedPrice: nil, images: [testImage], password: "1234")
+        Networking.registerGoods(form: form) { (result, error) in
+            if error == nil {
+                print(result)
+            }
+        }
     }
 }
 

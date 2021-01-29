@@ -36,19 +36,26 @@ struct Networking {
         }
     }
     
-    static func registerGoods(form: GoodsForm) {
-        guard let itemURL = NetworkConfig.makeURL(with: .registerGoods),
-              let parameter = try? self.encodeData(form: form) else {
-            return
-        }
-        requestToServer(with: itemURL, method: .post, parameter: parameter) { (result) in
-            do {
-                let data = try result.get()
-                let json = try self.decodeData(to: Goods.self, from: data)
-                debugPrint(json)
-            } catch let error {
-                debugPrint(error)
-            }
+//    static func registerGoods(form: GoodsForm) {
+//        guard let itemURL = NetworkConfig.makeURL(with: .registerGoods),
+//              let parameter = try? self.encodeData(form: form) else {
+//            return
+//        }
+//        requestToServer(with: itemURL, method: .post, parameter: parameter) { (result) in
+//            do {
+//                let data = try result.get()
+//                let json = try self.decodeData(to: Goods.self, from: data)
+//                debugPrint(json)
+//            } catch let error {
+//                debugPrint(error)
+//            }
+//        }
+//    }
+    static func registerGoods(form: GoodsForm, completion: @escaping (Goods?, Error?) -> ()) {
+        let api = RegisterGoodsAPI()
+        let apiTaskLoader = APILoader(apiRequest: api)
+        apiTaskLoader.loadAPIRequest(requestData: form) { (result, error) in
+            completion(result, error)
         }
     }
     
