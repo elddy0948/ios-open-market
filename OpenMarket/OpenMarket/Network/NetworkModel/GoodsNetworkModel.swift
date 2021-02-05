@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GoodsModel {
+struct GoodsNetworkModel {
     typealias GoodsFormParameter = [String : Any]
     
     private static let task = NetworkTask(dispatcher: NetworkDispatcher())
@@ -20,9 +20,9 @@ struct GoodsModel {
         var bodyParams: Data?
         var boundary: String?
         
-        init(fetchID: UInt) {
-            self.id = fetchID
-            self.path.append(NetworkConfig.makeURLPath(api: .fetchGoods, with: fetchID))
+        init(idToFetch: UInt) {
+            self.id = idToFetch
+            self.path.append(NetworkConfig.makeURLPath(api: .fetchGoods, with: idToFetch))
             self.method = .get
         }
         
@@ -30,7 +30,7 @@ struct GoodsModel {
             self.path.append(NetworkConfig.makeURLPath(api: .registerGoods, with: nil))
             self.method = .post
             self.boundary = UUID().uuidString
-            self.headers = ["Content-Type" : String(format: NetworkConfig.headerType.multipartForm, self.boundary ?? "")]
+            self.headers = ["Content-Type" : String(format: HeaderType.multipartForm, self.boundary ?? "")]
             self.bodyParams = GoodsForm.makeBodyData(with: registerParams, boundary: self.boundary ?? "")
         }
         
@@ -39,7 +39,7 @@ struct GoodsModel {
             self.path.append(NetworkConfig.makeURLPath(api: .editGoods, with: editID))
             self.method = .patch
             self.boundary = UUID().uuidString
-            self.headers = ["Content-Type" : String(format: NetworkConfig.headerType.multipartForm, self.boundary ?? "")]
+            self.headers = ["Content-Type" : String(format: HeaderType.multipartForm, self.boundary ?? "")]
             self.bodyParams = GoodsForm.makeBodyData(with: editParams, boundary: self.boundary ?? "")
         }
         
@@ -47,13 +47,13 @@ struct GoodsModel {
              deleteID: UInt) {
             self.path.append(NetworkConfig.makeURLPath(api: .deleteGoods, with: deleteID))
             self.method = .delete
-            self.headers = ["Content-Type" : NetworkConfig.headerType.json]
+            self.headers = ["Content-Type" : HeaderType.json]
             self.bodyParams = try? JSONSerialization.data(withJSONObject: deleteParams)
         }
     }
     
     static func fetchGoods(id: UInt, completion: @escaping(Result<Goods, Error>) -> Void) {
-        task.perform(request: GoodsModelRequest(fetchID: id), dataType: Goods.self) { result in
+        task.perform(request: GoodsModelRequest(idToFetch: id), dataType: Goods.self) { result in
             switch result {
             case .success(let decodedData):
                 completion(.success(decodedData))
