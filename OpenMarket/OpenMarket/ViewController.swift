@@ -26,17 +26,68 @@ class ViewController: UIViewController {
         }
     }
     private lazy var collectionViewLayouts: [UICollectionViewFlowLayout] = []
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        view.style = .large
+        return view
+    }()
     
     // MARK: - data
-    private var page = 1
+    private var isPagingLoading = false
+    private var hasNextPage = true
+    private var page: UInt = 1
     private var goodsList: [Goods]? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getMarketGoodsList(with: UInt(page))
+        setUpNotification()
+        setUpLoadingIndicator()
+        appendMarketGoodsList(with: page)
         setUpCollectionViewLayouts()
         setUpCollection()
         setUpSegment()
+    }
+    
+    // MARK: - setUp Notification
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(manageFailureImageLoad(_:)), name: .failureImageLoad, object: nil)
+    }
+    
+    @objc func manageFailureImageLoad(_ notification: Notification) {
+        guard let error = notification.object as? Error else {
+            return
+        }
+        self.showErrorAlert(with: error, okHandler: nil)
+    }
+    
+    private func setUpLoadingIndicator() {
+        self.view.addSubview(loadingIndicator)
+        loadingIndicator.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+        loadingIndicator.startAnimating()
+    }
+    
+    // MARK: - add data
+    private func appendMarketGoodsList(with page: UInt) {
+        MarketGoodsListNetworkModel.fetchMarketGoodsList(page: page) { result in
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.showErrorAlert(with: error, okHandler: nil)
+                }
+            case .success(let data):
+                if data.list.isEmpty {
+                    self.hasNextPage = false
+                }
+                if self.goodsList == nil {
+                    DispatchQueue.main.async {
+                        self.loadingIndicator.stopAnimating()
+                    }
+                }
+                self.addGoodsListData(data.list)
+                self.isPagingLoading = false
+                self.reloadCollectionView(isMoveTop: false)
+            }
+        }
     }
     
     private func addGoodsListData(_ data: [Goods]) {
@@ -47,25 +98,12 @@ class ViewController: UIViewController {
         }
     }
     
-    private func getMarketGoodsList(with page: UInt) {
-        MarketGoodsListModel.fetchMarketGoodsList(page: page) { result in
-            switch result {
-            case .failure(let error):
-                self.showErrorAlert(with: error, okHandler: nil)
-            case .success(let data):
-                self.addGoodsListData(data.list)
-                self.reloadCollectionView(isMoveTop: false)
-            }
-        }
-    }
-    
     // MARK: - setUp CollectionView
     private func setUpCollection() {
         collectionView.dataSource = self
-        collectionView.register(IndicatorCell.self, forCellWithReuseIdentifier: "loading")
-        collectionView.register(UINib(nibName: String(describing: GoodsGridCollectionViewCell.self),
-                                      bundle: nil), forCellWithReuseIdentifier: "gridCell")
-        collectionView.register(UINib(nibName: "GoodsListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "listCell")
+        collectionView.delegate = self
+        collectionView.register(UINib(nibName: String(describing: GoodsGridCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: "gridCell")
+        collectionView.register(UINib(nibName: String(describing: GoodsListCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: "listCell")
     }
     
     private func setUpCollectionViewLayouts() {
@@ -130,35 +168,44 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let goodsList = self.goodsList else {
-            return 1
-        }
-        return goodsList.count
+        return goodsList?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let layoutType = SegmentValueTypes(rawValue: self.segment.selectedSegmentIndex) else {
+        guard let layoutType = SegmentValueTypes(rawValue: self.segment.selectedSegmentIndex),
+              let goodsList = self.goodsList else {
             return UICollectionViewCell()
         }
-        guard let goodsList = self.goodsList else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "loading", for: indexPath) as! IndicatorCell
-            cell.indicator.startAnimating()
-            return cell
-        }
-        
+        var marketCell: MarketCell
         switch layoutType {
         case .list:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "listCell", for: indexPath) as? GoodsListCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.settingWithGoods(goodsList[indexPath.row])
-            return cell
+            marketCell = cell
         case .grid:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gridCell", for: indexPath) as? GoodsGridCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configure(goods: goodsList[indexPath.row])
-            return cell
+            marketCell = cell
+        }
+        marketCell.configure(goodsList[indexPath.row], isLast: indexPath.row == goodsList.count - 1)
+        return marketCell
+    }
+}
+
+extension ViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.height
+        
+        if offsetY > (contentHeight - height) {
+            if isPagingLoading == false && hasNextPage {
+                self.isPagingLoading = true
+                self.page = self.page + 1
+                self.appendMarketGoodsList(with: self.page)
+            }
         }
     }
 }
